@@ -1,3 +1,4 @@
+using CityInfo.API.Data;
 using CityInfo.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,21 +8,23 @@ namespace CityInfo.API.Controllers
     [Route("[api/controller]")]
     public class UserController : ControllerBase
     {
-        public UserController()
+        private readonly DataContext _context;
+
+        public UserController(DataContext context)
         {
+            _context = context;
         }
 
         [HttpGet]
-        public User Get()
+        public IEnumerable<User> GetAll()
         {
-            return new User(){
-                UserId = 1,
-                UserName = "william",
-                BirthDate = "10/10/2002",
-                Password = "12345",
-                Email = "will@gmail.com",
-                ProfilePicUrl = "endereço url aqui"
-            };
+            return _context.Users.ToList(); 
+        }
+
+        [HttpGet("{id}")]
+        public IEnumerable<User> GetById(int id)
+        {
+            return _context.Users.Where(user => user.UserId == id);
         }
     }
 }
