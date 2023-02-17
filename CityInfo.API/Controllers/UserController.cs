@@ -22,9 +22,9 @@ namespace CityInfo.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IEnumerable<User> GetById(int id)
+        public User GetById(int id)
         {
-            return _context.Users.Where(user => user.UserId == id);
+            return _context.Users.FirstOrDefault(user => user.UserId == id);
         }
     }
 }
