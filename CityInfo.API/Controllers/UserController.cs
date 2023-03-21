@@ -1,30 +1,36 @@
 using CityInfo.API.Data;
 using CityInfo.API.Models;
+using CityInfo.API.Services.UserService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CityInfo.API.Controllers
 {
     [ApiController]
-    [Route("[api/controller]")]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly DataContext _context;
-
-        public UserController(DataContext context)
+        private readonly IUserService _userService;
+        public UserController(IUserService userService)
         {
-            _context = context;
+            _userService = userService;
         }
 
-        [HttpGet]
-        public IEnumerable<User> GetAll()
+        [HttpGet("getAll")]
+        public ActionResult<IEnumerable<User>> GetAll()
         {
-            return _context.Users.ToList(); 
+            return  Ok(_userService.GetAllUsers());
         }
 
         [HttpGet("{id}")]
-        public User GetById(int id)
+        public ActionResult<User> GetById(int id)
         {
-            return _context.Users.FirstOrDefault(user => user.UserId == id);
+            return Ok(_userService.GetUserById(id));
+        }
+
+        [HttpPost]
+        public ActionResult<User> AddUser([FromBody] User user)
+        {
+            return Ok(_userService.AddUser(user));
         }
     }
 }
