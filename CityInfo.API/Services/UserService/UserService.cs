@@ -16,8 +16,7 @@ namespace CityInfo.API.Services.UserService
         public User AddUser(User newUser)
         {
             _context.Users.Add(newUser);
-            _context.SaveChanges();
-            return _context.Users.FirstOrDefault(user => user == newUser)
+            return _context.Users.FirstOrDefault(user => user == newUser);
         }
 
         public List<User> GetAllUsers()

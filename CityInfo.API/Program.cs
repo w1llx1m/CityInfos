@@ -1,4 +1,5 @@
 using CityInfo.API.Data;
+using CityInfo.API.Services.UserService;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(
     context => context.UseSqlServer(builder.Configuration.GetConnectionString("User"))
 );
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
